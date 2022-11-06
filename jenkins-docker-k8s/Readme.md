@@ -56,3 +56,4 @@ sudo mv kops-linux-amd64 /usr/local/bin/kops
  sudo chmod +x ./kubectl
  sudo mv ./kubectl /usr/local/bin/kubectl
  ```
+#For further steps, refer to kops-k8s repo and start from No. 5
