@@ -1,5 +1,5 @@
-```sh
 # Install docker
+```sh
 sudo hostnamectl set-hostname jenkins-admin
 sudo su - ubuntu
 sudo apt update -y
@@ -7,12 +7,13 @@ sudo apt install docker.io -y
 sudo systemctl enable docker.service
 sudo systemctl start docker
 ```
-
+# Install java. Java is a prerequisite for jenkins installation
 ```sh
-# Install jenkins
-sudo apt install openjdk-11-jdk #Java is a prerequisite for jenkins installation
+sudo apt install openjdk-11-jdk 
 java -version
+```
 # Install Jenkins
+```sh
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
