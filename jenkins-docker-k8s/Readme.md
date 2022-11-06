@@ -1,4 +1,4 @@
----sh
+```sh
 # Install docker
 sudo hostnamectl set-hostname jenkins-admin
 sudo su - ubuntu
@@ -6,9 +6,9 @@ sudo apt update -y
 sudo apt install docker.io -y
 sudo systemctl enable docker.service
 sudo systemctl start docker
----
+```
 
----sh
+```sh
 # Install jenkins
 sudo apt install openjdk-11-jdk #Java is a prerequisite for jenkins installation
 java -version
@@ -24,14 +24,14 @@ sudo apt-get install jenkins
 sudo systemctl daemon-reload  # To Register the Jenkins service 
 sudo systemctl start jenkins
 systemctl status jenkins
----
+```
 
 # Add jenkins user to docker group to be able to run docker commands
----sh
+```sh
 sudo usermod -aG docker jenkins
 sudo systemctl enable docker.service
 #Add jenkins user to sudoers file to use sudo privileges
 sudo echo "jenkins  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/jenkins
 sudo su - jenkins
----
+```
  
