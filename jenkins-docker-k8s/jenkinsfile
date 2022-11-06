@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    tools {
+        maven "maven3.8.6"
+    }
+
+    stages {
+        stage('SCM Clone') {
+            steps {
+                git credentialsId: 'GitHub-Credentials', url: 'https://github.com/Elsampee/spring-boot-docker'
+            }
+        }
+        stage('MavenBuild') {
+            steps {
+               sh 'mvn clean package'
+            }
+        }
+        stage('CodeQualityReport') {
+            steps {
+              echo 'Running CodeQuality Report'
+               // sh 'mvn sonar:sonar'
+            }
+        }
+        stage('NexusUpload') {
+            steps {
+               echo 'Uploading Build Artifact to Nexus'
+               // sh 'mvn deploy'
+            }
+        }
+        stage('BuildDockerImage') {
+            steps {
+               echo 'Build docker image'
+               sh 'docker build -t samofochukwu/spring-boot-mongo .'
+            }
+        }
+        stage('PushImageReg') {
+            steps {
+                withCredentials([string(credentialsId: 'DockerHubCredentials', variable: 'DockerHubCredentials')]) {
+      sh 'docker login -u samofochukwu -p ${DockerHubCredentials}'
+}
+               
+               sh 'docker push samofochukwu/spring-boot-mongo'
+            }
+        }
+        stage('RemoveDockerImages') {
+            steps {
+               
+               sh 'docker rmi $(docker images -q) '
+            }
+        }
+        stage('DeployAppToK8S') {
+            steps {
+               echo 'Deploying app to K8S'
+               sh 'kubectl apply -f springapp.yml'
+            }
+        }
+    }
+}
